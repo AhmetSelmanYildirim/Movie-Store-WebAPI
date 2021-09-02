@@ -24,7 +24,7 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
         public List<MoviesVM> Handle()
         {
             
-            var movieList = _dbContext.Movies.ToList<Movie>();
+            var movieList = _dbContext.Movies.Include(x => x.Director).ToList<Movie>();
             List<MoviesVM> vm = _mapper.Map<List<MoviesVM>>(movieList);
             return vm;
         }

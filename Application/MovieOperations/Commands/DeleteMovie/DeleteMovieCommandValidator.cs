@@ -10,7 +10,7 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Commands.DeleteMovie
     {
         public DeleteMovieCommandValidator()
         {
-            RuleFor(command => command.MovieId).GreaterThan(0).WithMessage("id 0'dan büyük olmalı");
+            RuleFor(command => command.MovieId).GreaterThan(0);
         }
     }
 }
