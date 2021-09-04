@@ -18,7 +18,6 @@ namespace Movie_Store_WebAPI.Entities
         public string Genre { get; set; }
         public int DirectorId { get; set; }
         public Director Director { get; set; }
-        public string Actors { get; set; }
-        public int ActorIds { get; set; }
+        public List<MovieActor> MovieActors { get; set; }
     }
 }

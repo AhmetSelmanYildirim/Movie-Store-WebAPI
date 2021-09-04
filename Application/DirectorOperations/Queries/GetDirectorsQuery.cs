@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Movie_Store_WebAPI.DbOperations;
 using Movie_Store_WebAPI.Entities;
 using System;
@@ -21,8 +22,12 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
 
         public List<DirectorsVM> Handle()
         {
-            var directors = _dbContext.Directors.OrderBy(x => x.ID);
+            var directors = _dbContext.Directors
+                .Include(d => d.Movies)
+                .OrderBy(x => x.ID).ToList<Director>();
             List<DirectorsVM> returnObj = _mapper.Map<List<DirectorsVM>>(directors);
+
+
             return returnObj;
         }
 
@@ -32,6 +37,6 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        //public ICollection<Movie> directedMovies { get; set; }
+        public List<Movie> Movies { get; set; }
     }
 }

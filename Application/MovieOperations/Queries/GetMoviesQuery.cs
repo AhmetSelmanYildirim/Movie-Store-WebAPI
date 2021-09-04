@@ -24,7 +24,10 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
         public List<MoviesVM> Handle()
         {
             
-            var movieList = _dbContext.Movies.Include(x => x.Director).ToList<Movie>();
+            var movieList = _dbContext.Movies
+                .Include(x => x.Director)
+                .Include(a=> a.MovieActors)
+                .ToList<Movie>();
             List<MoviesVM> vm = _mapper.Map<List<MoviesVM>>(movieList);
             return vm;
         }
@@ -34,7 +37,7 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
             public string Name { get; set; }
             public string Year { get; set; }
             public string Director { get; set; }
-            public string Actors { get; set; }
+            public List<MovieActor> MovieActor { get; set; }
             public float Price { get; set; }
             public string Genre { get; set; }
 

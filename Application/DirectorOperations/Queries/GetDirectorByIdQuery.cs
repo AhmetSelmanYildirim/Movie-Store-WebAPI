@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Movie_Store_WebAPI.DbOperations;
+using Movie_Store_WebAPI.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
 
         public DirectorDetailVM Handle()
         {
-            var director = _dbContext.Directors.Where(x => x.ID == DirectorId).SingleOrDefault();
+            var director = _dbContext.Directors.Include(d=> d.Movies).Where(x => x.ID == DirectorId).SingleOrDefault();
 
             if(director is null)
             {
@@ -38,5 +40,6 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
     {
         public string Name { get; set; }
         public string Surname { get; set; }
+        public List<Movie> Movies { get; set; }
     }
 }

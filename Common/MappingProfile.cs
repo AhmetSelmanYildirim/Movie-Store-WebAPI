@@ -17,15 +17,34 @@ namespace Movie_Store_WebAPI.Common
     {
         public MappingProfile()
         {
+            /* Movie */
             CreateMap<MoviesVM, Movie>();
-            CreateMap<Movie, MoviesVM>().ForMember(dest=> dest.Director, opt => opt.MapFrom(src => src.Director.Fullname));
+            CreateMap<Movie, MoviesVM>()
+                .ForMember(dest => dest.Director, opt => opt.MapFrom(src => src.Director.Fullname))
+                .ForMember(dto=> dto.MovieActor, opt=> opt.MapFrom(x=>x.MovieActors.Select(y=>y.Actor).ToList()));
+
             CreateMap<MovieDetailVM, Movie>();
             CreateMap<Movie, MovieDetailVM>().ForMember(dest => dest.Director, opt => opt.MapFrom(src => src.Director.Fullname));
+
             CreateMap<CreateMovieVM, Movie>();
 
-            CreateMap<Director, DirectorsVM>();
-            CreateMap<Director, DirectorDetailVM>();
+            /* Director */
+
+            CreateMap<Director, DirectorsVM>().ForMember(dest => dest.Movies, opt=> 
+                opt.MapFrom(src=> src.Movies.Select(x=> 
+                    new Movie() { Name = x.Name, }      
+                ))
+            );
+
+            CreateMap<Director, DirectorDetailVM>().ForMember(dest => dest.Movies, opt =>
+                opt.MapFrom(src => src.Movies.Select(x =>
+                     new Movie() { Name = x.Name, }
+                ))
+            );
+
             CreateMap<CreateDirectorVM, Director>();
+            
+            /* Actor */
             
 
         }

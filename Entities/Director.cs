@@ -17,7 +17,7 @@ namespace Movie_Store_WebAPI.Entities
             get => Name + " " + Surname;
         }
 
-        //public ICollection<Movie> directedMovies { get; set; }
+        public List<Movie> Movies { get; set; }
 
 
     }

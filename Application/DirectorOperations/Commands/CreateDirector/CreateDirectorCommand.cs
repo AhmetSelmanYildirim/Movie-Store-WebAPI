@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Movie_Store_WebAPI.DbOperations;
 using Movie_Store_WebAPI.Entities;
 using System;
@@ -22,7 +23,8 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Commands.CreateDirec
 
         public void Handle()
         {
-            var director = _dbContext.Directors.SingleOrDefault(x => x.Name == Model.Name);
+            var director = _dbContext.Directors
+                .SingleOrDefault(x => x.Name == Model.Name);
 
             if(director is not null)
             {

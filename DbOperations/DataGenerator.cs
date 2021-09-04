@@ -19,16 +19,35 @@ namespace Movie_Store_WebAPI.DbOperations
                     return;
                 }
 
+                context.Actors.AddRange(
+                    new Actor
+                    {
+                        Name="Tom",
+                        Surname="Cruise"
+                    },
+                    new Actor
+                    {
+                        Name="Robert",
+                        Surname="Downey"
+                    },
+                    new Actor
+                    {
+                        Name="Baska",
+                        Surname="Biri"
+                    }
+                    );
+
                 context.Directors.AddRange(
                     new Director
                     {
                         Name = "Steven",
-                        Surname = "Zailian"
+                        Surname = "Zailian",
+                        
                     },
                     new Director
                     {
                         Name = "Jon",
-                        Surname = "Favreau"
+                        Surname = "Favreau",
                     }
                 );
 
@@ -39,8 +58,6 @@ namespace Movie_Store_WebAPI.DbOperations
                         Year = new DateTime(1994,3,4),
                         Price= (float)13.14,
                         DirectorId= 1,
-                        Actors= "Liam Neeson",
-                        ActorIds = 1,
 
                     },
                     new Movie
@@ -50,8 +67,6 @@ namespace Movie_Store_WebAPI.DbOperations
                         Year = new DateTime(1996, 5, 22),
                         Price = (float)6.86,
                         DirectorId = 1,
-                        Actors = "Tom Cruise",
-                        ActorIds = 2,
 
                     },
                     new Movie
@@ -61,8 +76,6 @@ namespace Movie_Store_WebAPI.DbOperations
                         Year = new DateTime(2008, 5, 2),
                         Price = (float)8.53,
                         DirectorId = 2,
-                        Actors = "RDJ",
-                        ActorIds = 3,
 
                     }
                 );
