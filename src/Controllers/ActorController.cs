@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store_WebAPI.Application.ActorOperations.Queries;
 using Movie_Store_WebAPI.DbOperations;
@@ -26,5 +27,21 @@ namespace Movie_Store_WebAPI.Controllers
             var obj = query.Handle();
             return Ok(obj);
         }
+
+        [HttpGet("id")]
+        public IActionResult GetActorById(int id)
+        {
+            ActorDetailVM result;
+
+            GetActorByIdQuery query = new(_mapper, _dbContext);
+            GetActorByIdQueryValidator validator = new();
+            query.ActorId = id;
+            validator.ValidateAndThrow(query);
+            result = query.Handle(id);
+
+            return Ok(result);
+
+        }
+
     }
 }

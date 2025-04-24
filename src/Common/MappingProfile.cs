@@ -47,6 +47,10 @@ namespace Movie_Store_WebAPI.Common
                 .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => $"{src.Name ?? ""} {src.Surname ?? ""}".Trim()))
                 .ForMember(dest => dest.Movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie.Name).ToList()));
 
+            CreateMap<ActorDetailVM, Actor>();
+            CreateMap<Actor, ActorDetailVM>()
+                .ForMember(dest => dest.movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie.Name).ToList()));
+
         }
     }
 }
