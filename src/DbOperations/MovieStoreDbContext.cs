@@ -15,12 +15,12 @@ namespace Movie_Store_WebAPI.DbOperations
         }
 
 
-        public DbSet<Movie> Movies { get ; set; }
-        public DbSet<Customer> Customers { get ; set; }
-        public DbSet<Director> Directors { get ; set; }
-        public DbSet<Actor> Actors { get ; set ; }
-        public DbSet<Order> Orders { get ; set ; }
-        public DbSet<MovieActor> MovieActors { get ; set ; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Director> Directors { get; set; }
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<MovieActor> MovieActors { get; set; }
 
         public override int SaveChanges()
         {
@@ -36,14 +36,17 @@ namespace Movie_Store_WebAPI.DbOperations
 
             modelBuilder.Entity<MovieActor>()
             .HasKey(bc => new { bc.MovieId, bc.ActorId });
+
             modelBuilder.Entity<MovieActor>()
                 .HasOne(bc => bc.Movie)
                 .WithMany(b => b.MovieActors)
                 .HasForeignKey(bc => bc.MovieId);
+
             modelBuilder.Entity<MovieActor>()
                 .HasOne(bc => bc.Actor)
                 .WithMany(c => c.MovieActors)
                 .HasForeignKey(bc => bc.ActorId);
+
 
 
             //modelBuilder.Entity<Movie>()
