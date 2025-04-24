@@ -26,7 +26,7 @@ namespace Movie_Store_WebAPI.Application.ActorOperations.Commads.CreateActor
 
             if (actor is not null)
             {
-                throw new InvalidOperationException("Movie already exist");
+                throw new InvalidOperationException("Actor already exist");
             }
 
             actor = _mapper.Map<Actor>(Model);

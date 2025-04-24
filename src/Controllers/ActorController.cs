@@ -2,7 +2,11 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store_WebAPI.Application.ActorOperations.Commads.CreateActor;
+using Movie_Store_WebAPI.Application.ActorOperations.Commads.DeleteActor;
+using Movie_Store_WebAPI.Application.ActorOperations.Commads.UpdateActor;
 using Movie_Store_WebAPI.Application.ActorOperations.Commands.CreateActor;
+using Movie_Store_WebAPI.Application.ActorOperations.Commands.DeleteActor;
+using Movie_Store_WebAPI.Application.ActorOperations.Commands.UpdateActor;
 using Movie_Store_WebAPI.Application.ActorOperations.Queries;
 using Movie_Store_WebAPI.DbOperations;
 
@@ -57,8 +61,32 @@ namespace Movie_Store_WebAPI.Controllers
             validator.ValidateAndThrow(command);
 
             command.Handle();
-            return Ok("Actor successfully created");
+            return Ok("Actor created successfully");
         }
 
+        [HttpPut("id")]
+        public IActionResult UpdateActor(int id, [FromBody] UpdateActorVM updateActorObj)
+        {
+            UpdateActorCommand command = new(_dbContext);
+            UpdateActorCommandValidator validator = new();
+            command.ActorId = id;
+            command.Model = updateActorObj;
+            validator.ValidateAndThrow(command);
+            command.Handle();
+
+            return Ok("Actor updated successfully");
+        }
+
+        [HttpDelete("id")]
+        public IActionResult DeleteActor(int id)
+        {
+            DeleteActorCommand command = new(_dbContext);
+            DeleteActorCommandValidator validator = new();
+            command.ActorId = id;
+            validator.ValidateAndThrow(command);
+            command.Handle();
+
+            return Ok("Actor deleted successfully");
+        }
     }
 }
