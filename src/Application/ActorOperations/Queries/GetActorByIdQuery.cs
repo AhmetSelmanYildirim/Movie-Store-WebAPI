@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Movie_Store_WebAPI.DbOperations;
-using Movie_Store_WebAPI.Entities;
+using static Movie_Store_WebAPI.Application.MovieOperations.Queries.GetMoviesQuery;
 
 namespace Movie_Store_WebAPI.Application.ActorOperations.Queries
 {
@@ -48,7 +48,7 @@ namespace Movie_Store_WebAPI.Application.ActorOperations.Queries
         {
             get => Name + " " + Surname;
         }
-        public List<string> movies { get; set; }
+        public List<MoviesVM> movies { get; set; }
 
     }
 

@@ -49,7 +49,7 @@ namespace Movie_Store_WebAPI.Common
 
             CreateMap<ActorDetailVM, Actor>();
             CreateMap<Actor, ActorDetailVM>()
-                .ForMember(dest => dest.movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie.Name).ToList()));
+                .ForMember(dest => dest.movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie).ToList()));
 
         }
     }
