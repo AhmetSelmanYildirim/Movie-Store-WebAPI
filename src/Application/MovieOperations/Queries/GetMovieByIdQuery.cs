@@ -3,7 +3,7 @@ using Movie_Store_WebAPI.DbOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
 {
@@ -21,9 +21,13 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
 
         public MovieDetailVM Handle()
         {
-            var movie = _dbContext.Movies.Where(movie => movie.MovieId == MovieId).SingleOrDefault();
 
-            if(movie is null)
+            var movie = _dbContext.Movies
+                .Include(x => x.Director)
+                .Include(a => a.MovieActors).ThenInclude(ma => ma.Actor)
+                .Where(movie => movie.MovieId == MovieId).SingleOrDefault();
+
+            if (movie is null)
             {
                 throw new InvalidOperationException("Movie not found");
             }
@@ -39,14 +43,9 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Queries
             public string Name { get; set; }
             public string Year { get; set; }
             public string Director { get; set; }
-            public string Actors { get; set; }
+            public List<string> Actors { get; set; }
             public float Price { get; set; }
             public string Genre { get; set; }
         }
-
-
-
-
-
     }
 }
