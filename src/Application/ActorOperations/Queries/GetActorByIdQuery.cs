@@ -26,7 +26,7 @@ namespace Movie_Store_WebAPI.Application.ActorOperations.Queries
         public ActorDetailVM Handle(int actorId)
         {
             var actor = _dbContext.Actors
-                .Include(a => a.MovieActors).ThenInclude(ma => ma.Movie)
+                .Include(a => a.MovieActors).ThenInclude(ma => ma.Movie).ThenInclude(d => d.Director)
                 .Where(actor => actor.ActorId == actorId).SingleOrDefault();
             if (actor is null)
             {

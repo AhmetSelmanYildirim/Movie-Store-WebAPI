@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store_WebAPI.Application.DirectorOperations.Commands.CreateDirector;
@@ -6,10 +7,6 @@ using Movie_Store_WebAPI.Application.DirectorOperations.Commands.DeleteDirector;
 using Movie_Store_WebAPI.Application.DirectorOperations.Commands.UpdateDirector;
 using Movie_Store_WebAPI.Application.DirectorOperations.Queries;
 using Movie_Store_WebAPI.DbOperations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movie_Store_WebAPI.Controllers
 {
@@ -29,62 +26,105 @@ namespace Movie_Store_WebAPI.Controllers
         [HttpGet]
         public IActionResult GetAllDirectors()
         {
-            GetDirectorsQuery query = new(_dbContext, _mapper);
-            var obj = query.Handle();
-            return Ok(obj);
+            try
+            {
+                GetDirectorsQuery query = new(_dbContext, _mapper);
+                var obj = query.Handle();
+                return Ok(obj);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("id")]
         public IActionResult GetDirectorById(int id)
         {
-            GetDirectorByIdQuery query = new( _dbContext, _mapper);
-            query.DirectorId = id;
-            GetDirectorByIdQueryValidator validator = new();
-            validator.ValidateAndThrow(query);
+            try
+            {
+                GetDirectorByIdQuery query = new(_dbContext, _mapper)
+                {
+                    DirectorId = id
+                };
 
-            var obj = query.Handle();
-            return Ok(obj);
+                GetDirectorByIdQueryValidator validator = new();
+                validator.ValidateAndThrow(query);
 
+                var obj = query.Handle();
+                return Ok(obj);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public IActionResult AddDirector([FromBody] CreateDirectorVM newDirector)
         {
-            CreateDirectorCommand command = new(_dbContext, _mapper);
-            command.Model = newDirector;
+            try
+            {
+                CreateDirectorCommand command = new(_dbContext, _mapper)
+                {
+                    Model = newDirector
+                };
 
-            CreateDirectorCommandValidator validator = new();
-            validator.ValidateAndThrow(command);
-            command.Handle();
+                CreateDirectorCommandValidator validator = new();
+                validator.ValidateAndThrow(command);
 
-            return Ok();
+                command.Handle();
+                return Ok("Director added successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("id")]
         public IActionResult UpdateDirector(int id, [FromBody] UpdateDirectorVM updatedDirector)
         {
-            UpdateDirectorCommand command = new(_dbContext);
-            UpdateDirectorCommandValidator validator = new();
-            command.DirectorId = id;
-            command.Model = updatedDirector;
-            validator.ValidateAndThrow(command);
-            command.Handle();
+            try
+            {
+                UpdateDirectorCommand command = new(_dbContext)
+                {
+                    DirectorId = id,
+                    Model = updatedDirector
+                };
 
-            return Ok();
+                UpdateDirectorCommandValidator validator = new();
+                validator.ValidateAndThrow(command);
+
+                command.Handle();
+                return Ok("Director updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("id")]
         public IActionResult DeleteDirector(int id)
         {
-            DeleteDirectorCommand command = new(_dbContext);
-            DeleteDirectorCommandValidator validator = new();
+            try
+            {
+                DeleteDirectorCommand command = new(_dbContext)
+                {
+                    DirectorId = id
+                };
 
-            command.DirectorId = id;
-            validator.ValidateAndThrow(command);
-            command.Handle();
+                DeleteDirectorCommandValidator validator = new();
+                validator.ValidateAndThrow(command);
 
-            return Ok();
+                command.Handle();
+                return Ok("Director deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
     }
 }

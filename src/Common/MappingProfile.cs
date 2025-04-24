@@ -27,7 +27,8 @@ namespace Movie_Store_WebAPI.Common
                 .ForMember(dto => dto.Actors, opt => opt.MapFrom(x => x.MovieActors.Select(y => y.Actor.Fullname).ToList()));
 
 
-            CreateMap<CreateMovieVM, Movie>();
+            CreateMap<CreateMovieVM, Movie>()
+                .ForMember(dest => dest.Director, opt => opt.Ignore());
 
             /* Director */
             CreateMap<Director, DirectorsVM>().ForMember(dest => dest.Movies, opt => opt.MapFrom(src => src.Movies.ToList()));

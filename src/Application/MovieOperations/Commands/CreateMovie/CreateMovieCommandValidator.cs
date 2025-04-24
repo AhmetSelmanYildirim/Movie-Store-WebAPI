@@ -11,7 +11,8 @@ namespace Movie_Store_WebAPI.Application.MovieOperations.Commands.CreateMovie
         public CreateMovieCommandValidator()
         {
             RuleFor(command => command.Model.Name).NotEmpty().MinimumLength(2);
-            RuleFor(command => command.Model.Price).GreaterThan(0);
+            RuleFor(command => command.Model.Price).NotEmpty().GreaterThan(0);
+            RuleFor(command => command.Model.Director).NotEmpty().GreaterThan(0);
             RuleFor(command => command.Model.Year.Date).NotEmpty().LessThan(DateTime.Now.Date);
             RuleFor(command => command.Model.Genre).NotEmpty();
         }
