@@ -1,6 +1,8 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Movie_Store_WebAPI.Application.ActorOperations.Commads.CreateActor;
+using Movie_Store_WebAPI.Application.ActorOperations.Commands.CreateActor;
 using Movie_Store_WebAPI.Application.ActorOperations.Queries;
 using Movie_Store_WebAPI.DbOperations;
 
@@ -41,6 +43,21 @@ namespace Movie_Store_WebAPI.Controllers
 
             return Ok(result);
 
+        }
+
+        [HttpPost]
+        public IActionResult CreateActor([FromBody] CreateActorVM newActor)
+        {
+            var command = new CreateActorCommand(_dbContext, _mapper)
+            {
+                Model = newActor
+            };
+
+            var validator = new CreateActorCommandValidator();
+            validator.ValidateAndThrow(command);
+
+            command.Handle();
+            return Ok("Actor successfully created");
         }
 
     }

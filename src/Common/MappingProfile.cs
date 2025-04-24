@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Movie_Store_WebAPI.Application.ActorOperations.Commads.CreateActor;
 using Movie_Store_WebAPI.Application.ActorOperations.Queries;
 using Movie_Store_WebAPI.Application.DirectorOperations.Commands.CreateDirector;
 using Movie_Store_WebAPI.Application.DirectorOperations.Queries;
@@ -50,6 +51,9 @@ namespace Movie_Store_WebAPI.Common
             CreateMap<ActorDetailVM, Actor>();
             CreateMap<Actor, ActorDetailVM>()
                 .ForMember(dest => dest.movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie).ToList()));
+
+            CreateMap<CreateActorVM, Actor>()
+                .ForMember(dest => dest.MovieActors, opt => opt.Ignore());
 
         }
     }
