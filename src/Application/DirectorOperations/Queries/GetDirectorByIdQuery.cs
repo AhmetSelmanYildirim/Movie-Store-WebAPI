@@ -25,21 +25,21 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
 
         public DirectorDetailVM Handle()
         {
-            var director = _dbContext.Directors.Include(d=> d.Movies).Where(x => x.ID == DirectorId).SingleOrDefault();
+            var director = _dbContext.Directors.Include(d => d.Movies).Where(x => x.ID == DirectorId).SingleOrDefault();
 
-            if(director is null)
+            if (director is null)
             {
                 throw new InvalidOperationException("Director not found");
             }
             DirectorDetailVM vm = _mapper.Map<DirectorDetailVM>(director);
             return vm;
-        } 
+        }
     }
 
     public class DirectorDetailVM
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public List<Movie> Movies { get; set; }
+        public List<string> Movies { get; set; }
     }
 }

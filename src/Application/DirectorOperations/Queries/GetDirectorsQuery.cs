@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Movie_Store_WebAPI.Application.MovieOperations.Queries.GetMoviesQuery;
 
 namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
 {
@@ -37,6 +38,6 @@ namespace Movie_Store_WebAPI.Application.DirectorOperations.Queries
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public List<Movie> Movies { get; set; }
+        public List<MoviesVM> Movies { get; set; }
     }
 }

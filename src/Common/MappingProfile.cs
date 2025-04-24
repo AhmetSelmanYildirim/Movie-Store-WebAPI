@@ -30,18 +30,9 @@ namespace Movie_Store_WebAPI.Common
             CreateMap<CreateMovieVM, Movie>();
 
             /* Director */
+            CreateMap<Director, DirectorsVM>().ForMember(dest => dest.Movies, opt => opt.MapFrom(src => src.Movies.ToList()));
 
-            CreateMap<Director, DirectorsVM>().ForMember(dest => dest.Movies, opt =>
-                opt.MapFrom(src => src.Movies.Select(x =>
-                    new Movie() { Name = x.Name, }
-                ))
-            );
-
-            CreateMap<Director, DirectorDetailVM>().ForMember(dest => dest.Movies, opt =>
-                opt.MapFrom(src => src.Movies.Select(x =>
-                     new Movie() { Name = x.Name, }
-                ))
-            );
+            CreateMap<Director, DirectorDetailVM>().ForMember(dest => dest.Movies, opt => opt.MapFrom(src => src.Movies.Select(m => m.Name).ToList()));
 
             CreateMap<CreateDirectorVM, Director>();
 
