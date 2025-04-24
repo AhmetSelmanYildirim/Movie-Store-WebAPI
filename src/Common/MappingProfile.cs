@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AutoMapper;
+using Movie_Store_WebAPI.Application.ActorOperations.Queries;
 using Movie_Store_WebAPI.Application.DirectorOperations.Commands.CreateDirector;
 using Movie_Store_WebAPI.Application.DirectorOperations.Queries;
 using Movie_Store_WebAPI.Application.MovieOperations.Commands.CreateMovie;
-using Movie_Store_WebAPI.Application.MovieOperations.Queries;
 using Movie_Store_WebAPI.Entities;
 using static Movie_Store_WebAPI.Application.MovieOperations.Queries.GetMovieByIdQuery;
 using static Movie_Store_WebAPI.Application.MovieOperations.Queries.GetMoviesQuery;
@@ -45,7 +42,10 @@ namespace Movie_Store_WebAPI.Common
             CreateMap<CreateDirectorVM, Director>();
 
             /* Actor */
-
+            CreateMap<ActorsVM, Actor>();
+            CreateMap<Actor, ActorsVM>()
+                .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => $"{src.Name ?? ""} {src.Surname ?? ""}".Trim()))
+                .ForMember(dest => dest.Movies, opt => opt.MapFrom(src => src.MovieActors.Select(m => m.Movie.Name).ToList()));
 
         }
     }
